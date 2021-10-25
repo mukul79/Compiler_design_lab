@@ -1,0 +1,70 @@
+// https://www.hackerrank.com/contests/cd-v-b-25th-oct-21/challenges/recursive-descent-parsing
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+int look=0;
+char token='a';
+int res=1;
+
+char getToken(char s[]){
+    look++;
+    return s[look];
+}
+
+void S(char s[]){
+    if(token=='a'){
+        token = getToken(s);
+        A(s);
+        S(s);
+    }
+    else if(token=='c'){
+        token = getToken(s);
+        
+    }
+    else res=0;
+}
+
+void B(char s[]){
+    if(token=='b'){
+        token = getToken(s);
+        A(s);
+    }
+    else if(token=='a' || token=='c'){
+        S(s);
+    }
+    else res=0;
+}
+
+void A(char s[]){
+    if(token=='b'){
+        token = getToken(s);
+        if(token=='a'){
+            token = getToken(s);
+        }
+        else res=0;
+    }
+    else if(token=='a' || token=='c'){
+        S(s);
+        B(s);
+    }
+    else res=0;
+}
+
+int main() {
+    int l;
+    char s[1001];
+    scanf("%s",s);
+    l = strlen(s);
+    s[l]='$';
+    s[l+1] = NULL;
+    S(s);
+    token = s[0];
+    // printf("%d",look);
+    if(look==l && res==1){
+        printf("Sucessfully Parsed");
+    }
+    else printf("Error in Parsing");
+    return 0;
+}
